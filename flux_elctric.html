@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Flux elèctric | U2.CAMP ELECTRIC </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Aurora MC" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.9 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script></head>
+<body class="exe-web-site exe-auto-math" id="exe-node-3"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">U2.CAMP ELECTRIC</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">Camp elèctric</a></li>
+   <li><a href="naturalesa_elctrica_de_la_matria.html" class="daddy">Naturalesa elèctrica de la matèria</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="intensitat_de_camp_elctric.html" class="daddy">Intensitat de camp elèctric</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau0.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li id="active"><a href="flux_elctric.html" class="active no-ch">Flux elèctric</a></li>
+   <li><a href="energia_potencial_elctrica.html" class="no-ch">Energia potencial elèctrica</a></li>
+   <li><a href="potencial_elctric.html" class="daddy">Potencial elèctric</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau1.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="moviment_de_les_partcules_en_un_camp_elctric.html" class="no-ch">Moviment de les partícules en un camp elèctric</a></li>
+   <li><a href="webgrafia_i_enllaos_dinters.html" class="no-ch">Webgrafia i enllaços d'interés</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="enunciats_pau0.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="energia_potencial_elctrica.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Flux elèctric</h1></header>
+<article class="iDevice_wrapper FreeTextIdevice" id="id5">
+<div class="iDevice emphasis0">
+<div id="ta5_85" class="block iDevice_content">
+<p style="text-align: justify;">El flux d’un camp elèctric <img src="img0.1.png" width="25" height="26" alt=" " style="vertical-align: middle;" /> que travessa una superfície <img src="img1.2.png" width="22" height="26" style="vertical-align: middle;" />, representa el nombre de línies de camp que traves una superfície perpendicular al camp.</p>
+<p style="text-align: center;"> <img src="img2.1.png" width="189" height="29" alt="" /></p>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper textIdevice em_iDevice" id="id6">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header iDevice_header_noIcon"><h1 class="iDeviceTitle">Teorema de Gauss</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta6_117_2" class="block iDevice_content">
+<div class="exe-text"><p style="text-align: justify;">Estableix que el flux del camp elèctric degut a un nombre qualsevol de càrregues puntuals a l’interior d’una superfície tancada qualsevol és igual al quocient entre el valor total de la càrrega tancada dins de la superfície i la constant dielèctrica del medi.</p>
+<p style="text-align: center;">\( \Phi _E=\oint_{S}\vec{E}\cdot \vec{S}=\frac{KQ}{r^2}\cdot 4\pi r^2= 4 \pi KQ=4\pi \frac{1}{4\pi \varepsilon _0}Q=\frac{Q}{\varepsilon _0} \)</p>
+<p style="text-align: center;">\( \Phi _E=\frac{Q}{\varepsilon _0} \)</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper textIdevice em_iDevice" id="id7">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header iDevice_header_noIcon"><h1 class="iDeviceTitle">Camp elèctric a l’interior d’un condensador pla</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta7_118_2" class="block iDevice_content">
+<div class="exe-text"><figure class="exe-figure exe-image float-right license-CC-BY-SA" style="width: 193px;"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Lineas_del_campo_y_equipotenciales_en_un_condensador.png" alt="" width="193" height="326" />
+<figcaption class="figcaption"><span class="author">Paulagf27</span>. <a href="https://commons.wikimedia.org/wiki/File:Lineas_del_campo_y_equipotenciales_en_un_condensador.png" target="_blank" class="title" rel="noopener"><em>Lineas del campo y equipotenciales en un condensador</em></a> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=ca" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-SA">CC BY-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+<p>S’anomena condensador pla al sistema format per dues plaques paral·leles carregades amb la mateixa càrrega però de signe diferent i separades per una distància petita.</p>
+<p>Dins d’un condensador pla hi ha un camp elèctric uniforme, perpendicular a les plaques, que va des de la placa positiva a la placa negativa.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id41">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió S20</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta41_120_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Dues càrregues q<sub>1</sub>= 8,9 μC i q<sub>2</sub>= 17,8 μC es troben en el buit i situades, respectivament, en els punts 𝑂 (0, 0, 0) cm i 𝑃 (1, 0, 0) cm. Enuncieu el teorema de Gauss per al camp elèctric. Calculeu, justificadament, el flux del camp elèctric a través d’una superfície esfèrica de radi 0,5 cm centrada en el punt O. Canvia el flux si en lloc d’una esfera es tracta d’un cub de costat 0,5 cm?</p>
+<p>Dada: permitivitat del buit 𝜀<sub>0</sub>= 8,9·10<sup>−12</sup> C<sup>2</sup>N<sup>−1</sup>m<sup>−2</sup></p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="20S2.jpg" alt="" width="2152" height="1522" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="enunciats_pau0.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="energia_potencial_elctrica.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_intef_js.js"></script></body></html>

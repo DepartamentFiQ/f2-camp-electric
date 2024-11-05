@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Enunciats PAU | U2.CAMP ELECTRIC </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Aurora MC" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.9 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script></head>
+<body class="exe-web-site exe-auto-math" id="exe-node-10"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">U2.CAMP ELECTRIC</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">Camp elèctric</a></li>
+   <li><a href="naturalesa_elctrica_de_la_matria.html" class="daddy">Naturalesa elèctrica de la matèria</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="intensitat_de_camp_elctric.html" class="daddy">Intensitat de camp elèctric</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau0.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="flux_elctric.html" class="no-ch">Flux elèctric</a></li>
+   <li><a href="energia_potencial_elctrica.html" class="no-ch">Energia potencial elèctrica</a></li>
+   <li class="current-page-parent"><a href="potencial_elctric.html" class="current-page-parent daddy">Potencial elèctric</a>
+   <ul>
+      <li id="active"><a href="enunciats_pau1.html" class="active no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="moviment_de_les_partcules_en_un_camp_elctric.html" class="no-ch">Moviment de les partícules en un camp elèctric</a></li>
+   <li><a href="webgrafia_i_enllaos_dinters.html" class="no-ch">Webgrafia i enllaços d'interés</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="potencial_elctric.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="moviment_de_les_partcules_en_un_camp_elctric.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Enunciats PAU</h1></header>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id42">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió JL19</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta42_121_2" class="block iDevice_content">
+<div class="pbl-task-description"><p><img src="img0.15.png" width="230" height="229" alt="imatge" style="float: right;" />Expliqueu breument què és un camp de forces conservatiu. Una càrrega positiva es troba en el si d'un camp electrostàtic. El treball realitzat pel camp per a desplaçar-la entre els punts A i B de la figura és de 0,01 J si se segueix el camí (1) Quin és el treball si se segueix el camí (2)? En quin punt, A o B, és major el potencial elèctric? Raoneu les respostes.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="19JL.jpg" alt="" width="2100" height="1533" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id43">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió JN19</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta43_122_2" class="block iDevice_content">
+<div class="pbl-task-description"><p><img src="img0.16.png" width="329" height="114" style="float: right;" />Sabent que el potencial elèctric en el punt P és nul, determineu el valor de la càrrega q<sub>2</sub>. Raoneu si serà nul el camp elèctric en el punt P.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="19JN.jpg" alt="" width="1759" height="508" /></p>
+<p>El camp elèctric no serà nul perquè les dues càrregues generen camp en la mateixa direcció.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id44">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JL18</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta44_123_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>En els punts A (0,0) m, B (0,2) m i C (2,2) m se situen tres càrregues elèctriques iguals, de valor -3 μC.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Dibuixeu, en el punt D (1,1), els vectors camp elèctric generats per cada una de les càrregues i calculeu el vector camp elèctric resultant. (1 punt)</li>
+<li>Calculeu el treball realitzat en el desplaçament d'una càrrega elèctrica puntual d' 1 µC entre els punts D (1,1) m i E (2,0) m, i raoneu si la càrrega pot realitzar espontàniament el dit desplaçament. (1 punt)</li>
+</ol>
+<p>Dada: constant de Coulomb, k<sub>e</sub>= 9·10<sup>9</sup> N·m<sup>2</sup>/C<sup>2</sup>.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="18jlp.jpg" alt="" width="2050" height="2382" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id45">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JN18</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta45_124_2" class="block iDevice_content">
+<div class="pbl-task-description"><p><img src="img0.17.png" width="299" height="229" style="float: right;" />Atenent a la distribució de càrregues representada en la figura, calcula:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>El vector camp elèctric a causa de cada una de les càrregues i el total en el punt P. Dibuixa tots els vectors. (1,2 punts)</li>
+<li>El treball mínim necessari per a traslladar una càrrega q<sub>3</sub>= 1 nC des de l'infinit fins al punt P. Considereu que el potencial elèctric en l'infinit és nul. (0,8 punts).</li>
+</ol>
+<p>Dada: constant de Coulomb, k<sub>e</sub>= 9·10<sup>9</sup> N·m<sup>2</sup>/C<sup>2</sup>. </p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="18JNP.jpg" alt="" width="2099" height="1737" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id46">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JL16</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta46_125_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Es col·loquen tres càrregues puntuals en tres dels quatre vèrtexs d'un quadrat de 3 m de costat. Sobre el vèrtex A(3,0) m hi ha una càrrega Q<sub>1</sub> = -2 nC, sobre el vèrtex B(3,3) m una càrrega Q<sub>2</sub> = -4 nC i sobre el vèrtex C(0,3) m una càrrega Q<sub>3</sub> = -2 nC. Calculeu:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>El vector camp elèctric resultant generat per les tres càrregues en el quart vèrtex, D, del quadrat. (1 punt)</li>
+<li>El potencial elèctric generat per les tres càrregues en el dit punt D. Quin valor hauria de tenir una quarta càrrega, Q4, situada a una distància de 9 m del punt D, perquè el potencial en el dit punt fóra nul? (1 punt)</li>
+</ol>
+<p>Dada: Constant de Coulomb, K = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id47">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JN16</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta47_126_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Tres càrregues elèctriques iguals de valor 3 µC se situen en els punts (1, 0) m, (-1, 0) m i (0, -1) m.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Dibuixeu en el punt (0,0) els vectors camp elèctric generats per cada una de les càrregues. Calculeu el vector camp elèctric resultant en el dit punt. (1 punt)</li>
+<li>Calculeu el treball realitzat en el desplaçament d'una càrrega elèctrica puntual de 1 μC entre (0, 0) i (0, 1) m. Raoneu si la càrrega es pot moure espontàniament al dit punt (0, 1) m. (1 punt)</li>
+</ol>
+<p>Dada: Constant de Coulomb, K = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id48">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JL15</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta48_127_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Una càrrega puntual de valor q<sub>1</sub> = -3 μC, es troba en el punt (0, 0) m i una segona càrrega de valor desconegut, q<sub>2</sub>, es troba en el punt (2, 0) m.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Calculeu el valor que ha de tenir la càrrega q<sub>2</sub> perquè el camp elèctric generat per ambdues càrregues en el punt (5, 0) m siga nul. Representeu els vectors camp elèctric generats per cada una de les càrregues en aqueix punt. (1 punt)</li>
+<li>Calculeu el treball necessari per a moure una càrrega q<sub>3</sub> = 0,1 μC, des del punt (5, 0) m fins al punt (10, 0) m . (1 punt)</li>
+</ol>
+<p>Dada: Constant de Coulomb, K = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id49">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JN15</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta49_128_2" class="block iDevice_content">
+<div class="pbl-task-description"><p><img src="img0.18.png" width="252" height="148" style="float: right;" />Donada la distribució de càrregues representada en la figura, calculeu:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>El camp elèctric (mòdul, direcció i sentit) en el punt A. (1 punt)</li>
+<li>El treball mínim necessari per a traslladar una càrrega q<sub>3</sub>= 1 nC des de l’infinit fins al punt A. Considereu que el potencial elèctric en l’infinit és nul. (1 punt)</li>
+</ol>
+<p>Dada: K = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="15JN.jpg" alt="" width="2146" height="2388" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id50">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JL13</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta50_129_2" class="block iDevice_content">
+<div class="pbl-task-description"><p><img src="img0.19.png" width="365" height="295" style="float: right;" />Dues càrregues elèctriques q<sub>1</sub>= 5 µC i q<sub>2</sub>= -3 µC es troben en les posicions (0, 0) m i (4, 0) m respectivament, com mostra la figura. Calculeu:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>El vector camp elèctric en el punt B (4,-3) m. (1 punt)</li>
+<li>El potencial elèctric en el punt A(2,0) m. Determineu també el treball que cal per a traslladar una càrrega de -10-12 C des de l’infinit fins el punt A. (Considereu nul el potencial elèctric en l’infinit (1 punt)</li>
+</ol>
+<p>Dada: Constant de Coulomb, K = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id51">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema J12</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta51_130_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Una càrrega puntual de valor q<sub>1</sub>= 3 mC es troba situada en l’origen de coordenades mentre que una segona càrrega, q<sub>2</sub>, de valor desconegut, es troba en el punt (4, 0) m. Aquestes càrregues creen conjuntament un potencial de 1,8×10<sup>7</sup> V en el punt P (0,3) m. Indiqueu l’expressió teòrica i calculeu el valor numèric de:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>La càrrega q<sub>2</sub>. (1 punt)</li>
+<li>El camp elèctric total creat per ambdues càrregues en el punt P. Representeu gràficament els vectors camp de cada càrrega i el vector camp total. (1 punt)</li>
+</ol>
+<p>Dada: Ke = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup></p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="12JP.jpeg" alt="" width="2076" height="1210" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id53">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió J10</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta53_132_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Quina energia allibera una tempesta elèctrica en la qual es transfereixen 50 raigs entre els núvols i el sòl? Suposeu que la diferència de potencial mitjana entre els núvols i el sòl és de 10<sup>9</sup> V i que la quantitat de càrrega mitjana transferida en cada raig és de 25 C.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="10J.jpeg" alt="" width="1670" height="604" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id52">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió S08</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta52_131_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Es té una càrrega q= 40 nC en el punt A (1, 0) cm i una altra càrrega q’= -10 nC en el punt A’ (0, 2) cm. Calculeu la diferència de potencial elèctric entre l’origen de coordenades i el punt B (1, 2) cm. Dada: K<sub>e</sub> = 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id54">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema S06</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta54_133_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Un model elèctric simple per a la molècula de clorur de sodi consisteix a considerar els àtoms de sodi i clor com dues càrregues elèctriques puntuals de valor 1,6×10<sup>-19</sup> C i –1,6×10<sup>-19</sup> C, respectivament. Ambdues càrregues es troben separades una distància d= 1,2×10<sup>-10</sup> m. Calculeu:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>El potencial elèctric originat per la molècula en un punt O localitzat al llarg de la recta que uneix ambdues càrregues i a una distància 50 d del seu punt mitjà. Considereu el cas en què el punt O es troba més pròxim a la càrrega positiva. (1 punt)</li>
+<li>El potencial elèctric originat per la molècula en un punt P localitzat al llarg de la recta mediatriu del segment que uneix les càrregues i a una distància 50 d del seu punt mitjà. (0,5 punts)</li>
+<li>El treball necessari per a desplaçar un electró des del punt O fins el punt P. (0,5 punts)</li>
+</ol>
+<p>Dades: e= 1,6×10<sup>-19</sup> C; K<sub>e</sub>= 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id57">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió S04</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta57_135_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>El potencial i el camp elèctric a certa distància d’una càrrega puntual valen 600 V i 200 N/C, respectivament. Quina és la distància a la càrrega puntual? Quin és el valor de la càrrega?</p>
+<p>Dada: K= 9·10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="04S.jpg" alt="" width="2022" height="386" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id58">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema S03</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta58_136_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Dues càrregues puntuals de 3 µC i -5 µC es troben situades, respectivament, en els punts A (1, 0) i B (0, 3), amb les distàncies expressades en metres. Es demana:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>El mòdul, la direcció i el sentit del camp elèctric en el punt P(4, 0). (1 punt)</li>
+<li>Treball realitzat per la força elèctrica per a traslladar una càrrega de 2 µC , des del punt P al punt R (5, 3). (1 punt).</li>
+</ol>
+<p>Dada: K= 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id59">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema J03</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta59_137_2" class="block iDevice_content">
+<div class="pbl-task-description"><p><img src="img0.20.png" width="275" height="141" style="float: right;" />En el rectangle mostrat en la figura els costats tenen una longitud de 5 cm i 15 cm, i les càrregues són q<sub>1</sub>= -5,0 µC i q<sub>2</sub>= +2,0 µC.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Calcula el mòdul, la direcció i el sentit del camp elèctric als vèrtex A i B (1 punt)</li>
+<li>Calcula el potencial elèctric als vèrtex A i B. (0,6 punt).</li>
+<li>Determina el treball que realitza la força del camp elèctric per a traslladar a una tercera càrrega de +3,0 µC des del punt A fins al punt B (0,4 punts). </li>
+</ol></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id60">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió J00</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta60_138_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Un dipol elèctric està format per dues càrregues puntuals de 2 µC i -2 µC , distants entre sí 6 cm. Calculeu el camp i el potencial elèctric:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>En un punt de la mediatriu del segment que les uneix, distant 5 cm de cada càrrega.</li>
+<li>En un punt situat en la prolongació del segment que les uneix i a 2 cm de la càrrega positiva.</li>
+</ol>
+<p>Dades: K= 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="00JP.jpg" alt="" width="2175" height="2345" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id61">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema J97</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta61_139_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Es situen tres càrregues elèctriques q<sub>1</sub>, q<sub>2</sub> i q<sub>3</sub>, en els punts A (0,0,0); B (0,4,0) i C (0,4,3), respectivament, on les coordenades venen donades en metres.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Si q<sub>1</sub>= 0,1 C, calculeu q<sub>2</sub> i q<sub>3</sub> per a que siga nul el camp elèctric al punt P (0,0,3).</li>
+<li>Si q<sub>1</sub>= 0,1 C, q<sub>2</sub>= -0,4 C i q<sub>3</sub>= 0,2 C, calculeu el treball necessari per a dur una càrrega unitària des del infinit fins el punt P (0,0,3).</li>
+</ol>
+<p>Dada: 1/(4πε<sub>0</sub>)= 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>. </p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id62">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió S11</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta62_140_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Una càrrega puntual q que es troba en un punt A es traslladada a un punt B, sent el potencial electrostàtic en A major que en B. Discutiu com varia l’energia potencial de la dita càrrega depenent del seu signe.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="11S.jpg" alt="" width="898" height="431" /></p>
+<p>Més informació i imatges interessants en <a href="https://www.fisicalab.com/apartado/intro-energia-potencial-electrica">Fisicalab.com</a></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id63">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema S07</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta63_141_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Es té un camp elèctric uniforme <img src="img0.21.png" width="181" height="32" style="vertical-align: middle;" /> que s’estén per tot l’espai. Seguidament s’hi introdueix una càrrega Q= 4 μC que se situa en el punt (2,0) m.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Calculeu el vector camp elèctric resultant en el punt P (2,3) m i el seu mòdul (1 punt).</li>
+<li>A continuació s’hi afegeix una segona càrrega Q’ en el punt (0,3) m. Quin valor ha de tenir Q’ perquè el camp elèctric resultant en el punt P no tinga component X? (1 punt).</li>
+</ol>
+<p>Dada: K<sub>e</sub>= 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="07S.jpg" alt="" width="2085" height="1300" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id64">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió J07</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta64_142_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Una càrrega q&gt;0 es troba sota l’acció d’un camp elèctric uniforme . Si la càrrega es desplaça en la mateixa direcció i sentit que la del camp elèctric, què ocorre amb la seua energia potencial elèctrica? (1 punt) I si movem la càrrega en direcció perpendicular al camp? (0,5 punts).</p>
+<p>Justifiqueu ambdues respostes.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="07J.jpeg" alt="" width="2058" height="605" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id65">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió J06</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta65_143_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Quina relació hi ha entre el potencial i el camp elèctric? Com s’expressa matemàticament aquesta relació en el cas d’un camp elèctric uniforme? </p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id66">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió J04</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta66_144_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>En un llamp típic, la diferència de potencial entre el núvol i la terra és 10<sup>9</sup> V i la quantitat de càrrega transferida val 30 C. Quanta energia s’allibera? Suposant que el camp elèctric entre el núvol i la terra és uniforme i perpendicular a la terra, i que el núvol es troba a 500 m sobre la terra, calcula la intensitat del camp elèctric.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="04J.jpeg" alt="" width="1562" height="383" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id67">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema J99</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta67_145_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Per a un camp elèctric uniforme <img src="img0.22.png" width="152" height="27" style="vertical-align: middle;" /> :</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Com seran les superfícies equipotencials del camp?</li>
+<li>Calculeu el treball necessari per a traslladar una càrrega de 2 μC des del punt P (2,3,0) m fins el punt Q (6,5,0) m.</li>
+<li>Calculeu la distància entre les superfícies equipotencials V<sub>1</sub>=10 V i V<sub>2</sub>=20 V.</li>
+</ol></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id68">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Qüestió S97</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta68_146_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>És la mateixa cosa el potencial elèctric que l’energia potencial elèctrica? Justifica la resposta.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="97S.png" alt="" width="2037" height="762" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="potencial_elctric.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="moviment_de_les_partcules_en_un_camp_elctric.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_intef_js.js"></script></body></html>

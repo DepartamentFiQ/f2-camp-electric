@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Moviment de les partícules en un camp elèctric | U2.CAMP ELECTRIC </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Aurora MC" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.9 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script></head>
+<body class="exe-web-site exe-auto-math" id="exe-node-6"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">U2.CAMP ELECTRIC</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">Camp elèctric</a></li>
+   <li><a href="naturalesa_elctrica_de_la_matria.html" class="daddy">Naturalesa elèctrica de la matèria</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="intensitat_de_camp_elctric.html" class="daddy">Intensitat de camp elèctric</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau0.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li><a href="flux_elctric.html" class="no-ch">Flux elèctric</a></li>
+   <li><a href="energia_potencial_elctrica.html" class="no-ch">Energia potencial elèctrica</a></li>
+   <li><a href="potencial_elctric.html" class="daddy">Potencial elèctric</a>
+   <ul class="other-section">
+      <li><a href="enunciats_pau1.html" class="no-ch">Enunciats PAU</a></li>
+   </ul>
+   </li>
+   <li id="active"><a href="moviment_de_les_partcules_en_un_camp_elctric.html" class="active no-ch">Moviment de les partícules en un camp elèctric</a></li>
+   <li><a href="webgrafia_i_enllaos_dinters.html" class="no-ch">Webgrafia i enllaços d'interés</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="enunciats_pau1.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="webgrafia_i_enllaos_dinters.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Moviment de les partícules en un camp elèctric</h1></header>
+<article class="iDevice_wrapper FreeTextIdevice" id="id15">
+<div class="iDevice emphasis0">
+<div id="ta15_85" class="block iDevice_content">
+<p style="text-align: justify;">Si una partícula carregada entra en un camp elèctric uniforme estarà sotmesa a la força elèctrica i al pes. En general la força elèctrica és major que el pes per la qual cosa es pot menysprear, i per tant l’acceleració que guanya la partícula es pot calcular a partir de la força elèctrica.</p>
+<p style="text-align: center;"><img src="img0.8.png" width="221" height="53" alt="" /></p>
+<div class="exe-layout-2-cols exe-layout-2-50-50 exe-clear">
+<div class="exe-col exe-col-1">
+<figure class="exe-figure exe-image position-center" style="width: 409px;"><img src="http://teleformacion.edu.aytolacoruna.es/FISICA/document/teoria/A_Franco/elecmagnet/mov_campo/Mov_1.gif" alt="" width="409" height="307" />
+<figcaption class="figcaption"><a href="http://teleformacion.edu.aytolacoruna.es/FISICA/document/teoria/A_Franco/elecmagnet/mov_campo/mov_campo.html#Movimiento%20en%20un%20campo%20el%C3%A9ctrico" target="_blank" class="title" rel="noopener"><em>Velocitat paral·lela al camp</em></a></figcaption>
+</figure>
+</div>
+<div class="exe-col exe-col-2">
+<figure class="exe-figure exe-image position-center" style="width: 400px;"><img src="https://s3-eu-west-1.amazonaws.com/genial.ly/5a5774e06427881fe07ed53b/1604416045766-movimientos_cargas_campo_electrico_01_sim.gif" alt="" width="400" height="262" />
+<figcaption class="figcaption"><a href="https://cpreuni.blogspot.com/2012/11/movimiento-de-particula-electrizada-en.html" target="_blank" class="title" rel="noopener"><em>Velocitat perpendicular al camp</em></a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id25">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JN17</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta25_113_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Un electró es mou dins d'un camp elèctric uniforme <img src="img0.10.png" width="132" height="26" style="vertical-align: middle;" />.  L'electró parteix del repòs des del punt A, de coordenades (0,1) m, i arriba al punt B amb una velocitat de 10<sup>6</sup> m/s després de recórrer 1 m.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Indiqueu la trajectòria que seguirà l'electró i les coordenades del punt B (1 punt)</li>
+<li>Calculeu raonadament el treball realitzat pel camp elèctric sobre la càrrega des de A fins a B i el valor del camp elèctric. (1 punt)</li>
+</ol>
+<p>Dades: càrrega elemental, e=-1,6·10<sup>-19</sup> C; massa de l’electró, me= 9,1·10<sup>-31</sup> kg</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Vídeo" /></div><div class="feedback js-feedback js-hidden"><p style="text-align: center;"><iframe width="560" height="314" src="https://www.youtube.com/embed/G7gjelMh2AY" allowfullscreen="allowfullscreen"></iframe></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id69">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema JL14</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta69_147_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Un electró es mou dins d’un camp elèctric uniforme <img src="img0.23.png" width="107" height="28" alt="" />, amb E &gt; 0. L’electró parteix del repòs des del punt A, de coordenades (0,0) cm, i arriba al punt B amb una velocitat de 10<sup>6</sup> m·s<sup>-1</sup> després de recórrer 20 cm. Considerant que sobre l’electró no actuen altres forces i sense tenir en compte efectes relativistes:</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Discutiu com serà la trajectòria de l’electró i calculeu les coordenades del punt B (en centímetres). (0,8 punts)</li>
+<li>Calculeu raonadament el mòdul del camp elèctric. (1,2 punts)</li>
+</ol>
+<p>Dades: càrrega elemental e= 1,6х10<sup>-19</sup> C; massa de l’electró m<sub>e</sub>= 9,1х10<sup>-31</sup> kg.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="14JLP.jpg" alt="" width="2088" height="1112" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id70">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema J10</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta70_148_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Un electró es mou dins d’un camp elèctric uniforme <img src="img0.23.png" width="107" height="28" style="vertical-align: middle;" />. L’electró ix del repòs des del punt A, de coordenades (1,0) m, i arriba al punt B amb una velocitat de 10<sup>7</sup> m·s<sup>-1</sup> després de recórrer 50 cm.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Indiqueu la trajectòria de l’electró i les coordenades del punt B. (1 punt)</li>
+<li>Calculeu el mòdul del camp elèctric. (1 punt)</li>
+</ol>
+<p>Dades: càrrega de l’electró e= 1,6·10<sup>-19</sup> C; massa de l’electró m<sub>e</sub>= 9,1·10<sup>-31</sup> kg.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id55">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Problema J05</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta55_134_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Una partícula amb càrrega q<sub>1</sub>= 10<sup>-6</sup> C es fixa en l’origen de coordenades.</p>
+<ol style="list-style-type: lower-alpha;">
+<li>Quin treball serà necessari realitzar per col·locar una segona partícula, amb càrrega q<sub>2</sub>= 10<sup>-8</sup> C, que es troba inicialment en l’infinit, en un punt P situat en la part positiva de l’eix Y a una distància de 30 cm de l’origen de coordenades? (1 punt)</li>
+<li>La partícula de càrrega q<sub>2</sub> té 2 mg de massa. Aquesta partícula es deixa lliure en el punt P, quina velocitat tindrà quan es trobe a 1,5 m de distància de q<sub>1</sub>? (considereu menyspreables els efectes gravitatoris). (1 punt).</li>
+</ol>
+<p>Dada: Ke= 9×10<sup>9</sup> N·m<sup>2</sup>·C<sup>-2</sup>.</p></div><div class="iDevice_buttons feedback-button js-required"><input type="button" class="feedbackbutton" value="Solució" /></div><div class="feedback js-feedback js-hidden"><p><img src="05JP.jpg" alt="" width="2089" height="1860" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="enunciats_pau1.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="webgrafia_i_enllaos_dinters.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_intef_js.js"></script></body></html>
